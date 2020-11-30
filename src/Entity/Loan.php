@@ -45,11 +45,23 @@ class Loan
      */
     private $user;
 
-   
+    /**
+     * @ORM\ManyToMany(targetEntity=Livre::class, inversedBy="loans")
+     */
+    private $livres;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=CDRom::class, inversedBy="loans")
+     */
+    private $cdrom;
+
     public function __construct()
     {
-        $this->ressources = new ArrayCollection();
+        $this->livres = new ArrayCollection();
+        $this->cdrom = new ArrayCollection();
     }
+
+   
 
     public function getId(): ?int
     {
@@ -116,5 +128,55 @@ class Loan
         return $this;
     }
 
-  
+    /**
+     * @return Collection|Livre[]
+     */
+    public function getLivres(): Collection
+    {
+        return $this->livres;
+    }
+
+    public function addLivre(Livre $livre): self
+    {
+        if (!$this->livres->contains($livre)) {
+            $this->livres[] = $livre;
+        }
+
+        return $this;
+    }
+
+    public function removeLivre(Livre $livre): self
+    {
+        $this->livres->removeElement($livre);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CDRom[]
+     */
+    public function getCdrom(): Collection
+    {
+        return $this->cdrom;
+    }
+
+    public function addCdrom(CDRom $cdrom): self
+    {
+        if (!$this->cdrom->contains($cdrom)) {
+            $this->cdrom[] = $cdrom;
+        }
+
+        return $this;
+    }
+
+    public function removeCdrom(CDRom $cdrom): self
+    {
+        $this->cdrom->removeElement($cdrom);
+
+        return $this;
+    }
+
+
+
+   
 }
