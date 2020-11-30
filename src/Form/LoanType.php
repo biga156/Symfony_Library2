@@ -36,6 +36,9 @@ class LoanType extends AbstractType
                         ->orderBy('l.title', 'ASC');
                 },
                 'choice_label' => 'title',
+                'placeholder' => 'aucun',
+                'required' => false,
+                
             ])
 
 
