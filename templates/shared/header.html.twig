@@ -25,7 +25,7 @@
 						</div>
 					</li>
 			{% if app.user %}
-				{% if app.user.roles == ['ROLE_VOLONTEER'] %}
+				{% if app.user.roles == ['ROLE_VOLONTEER']  %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('user_index') }}">Utilisateurs</a>
 					</li>
