@@ -27,7 +27,7 @@ class LoanType extends AbstractType
                 }
             ])
 
-            ->add('livres', EntityType::class, [
+           /* ->add('livres', EntityType::class, [
                 'class' => Livre::class,
                 'query_builder' => function (LivreRepository $livre) {
                     return $livre->createQueryBuilder('l')
@@ -54,7 +54,7 @@ class LoanType extends AbstractType
                 'choice_label' => 'title',
             
 
-            ]);
+            ])*/;
     }
 
     public function configureOptions(OptionsResolver $resolver)

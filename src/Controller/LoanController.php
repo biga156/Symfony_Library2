@@ -33,10 +33,13 @@ class LoanController extends AbstractController
         $loan = new Loan();
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
-
+     
         if ($form->isSubmitted() && $form->isValid()) {
-            $livre = $form->getData()["livres"]; 
-            
+                
+            $valeur = $form["livres"]->getData(); 
+            var_dump($valeur);
+            die();
+                        
             //1) Affecter l'emprunt à l'utilisateur
             //2) Mettre l'emprunt non disponible
             //3) Enregistrer la date de création de l'emprunt
