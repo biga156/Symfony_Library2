@@ -1,0 +1,16 @@
+1. Analyse du projet 
+2. Création de la base de donnée 
+3. Creation de l'entity User 
+    > php bin/console make:User
+4. Création des entities sans les relations
+    >php bin/console make:entity 
+5. Mise en place des relations entre les entities 
+6. Creation de l'authentification 
+    > php bin/console make:authentification
+7. Création d'un registration
+    > php bin/console make:registration
+8. téléchargement du thème bootswatch.com et de la navBar
+9. insertion des dépendances JS/JQUERY/CSS
+    https://translate.google.com/translate?hl=fr&sl=en&u=https://getbootstrap.com/&prev=search&pto=aue
+10. Mise en place des liens sur la navBar 
+11. Création des fixtures 

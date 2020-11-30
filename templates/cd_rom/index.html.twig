@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CDRom index{% endblock %}
+
+{% block body %}
+    <h1>CDRom index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Cote</th>
+                <th>Availability</th>
+                <th>Picture</th>
+                <th>Authtor</th>
+                <th>Bail</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for c_d_rom in c_d_roms %}
+            <tr>
+                <td>{{ c_d_rom.id }}</td>
+                <td>{{ c_d_rom.title }}</td>
+                <td>{{ c_d_rom.cote }}</td>
+                <td>{{ c_d_rom.availability ? 'Yes' : 'No' }}</td>
+                <td>{{ c_d_rom.picture }}</td>
+                <td>{{ c_d_rom.authtor }}</td>
+                <td>{{ c_d_rom.bail }}</td>
+                <td>
+                    <a href="{{ path('c_d_rom_show', {'id': c_d_rom.id}) }}">show</a>
+                    <a href="{{ path('c_d_rom_edit', {'id': c_d_rom.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('c_d_rom_new') }}">Create new</a>
+{% endblock %}

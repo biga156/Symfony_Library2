@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit MicroFilm{% endblock %}
+
+{% block body %}
+    <h1>Edit MicroFilm</h1>
+
+    {{ include('micro_film/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('micro_film_index') }}">back to list</a>
+
+    {{ include('micro_film/_delete_form.html.twig') }}
+{% endblock %}

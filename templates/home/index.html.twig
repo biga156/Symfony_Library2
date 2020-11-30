@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Hello HomeController!
+{% endblock %}
+
+{% block body %}
+  <style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font:
+    18px/1.5 sans-serif; } .example-wrapper code { background: #F5F5F5; padding:
+    2px 6px; }
+  </style>
+
+  <div class="example-wrapper">
+    {% if app.user %}
+      <h1>
+        Hello {{ app.user.firstname }}! ✅
+      </h1>
+      <p>
+        you are logged in as 
+         {# loop the roles #}
+             {% for role in app. user.roles %}
+                  {% if role == "ROLE_USER" %}
+                       User
+                  {% elseif role == "ROLE_ADMIN" %}
+                      Administrator
+                  {% endif %}
+           {% endfor %}
+      </p>
+    {% else %}
+     <h1>
+        Hello visitor! ✅
+      </h1>
+      <p>
+        you must log in
+      </p>
+    {% endif %}
+  </div>
+{% endblock %}

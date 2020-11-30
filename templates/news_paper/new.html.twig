@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New NewsPaper{% endblock %}
+
+{% block body %}
+    <h1>Create new NewsPaper</h1>
+
+    {{ include('news_paper/_form.html.twig') }}
+
+    <a href="{{ path('news_paper_index') }}">back to list</a>
+{% endblock %}

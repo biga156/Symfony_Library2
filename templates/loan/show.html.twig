@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Loan{% endblock %}
+
+{% block body %}
+    <h1>Loan</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ loan.id }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UdatedAt</th>
+                <td>{{ loan.udatedAt ? loan.udatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Searchable</th>
+                <td>{{ loan.searchable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ loan.status ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('loan_index') }}">back to list</a>
+
+    <a href="{{ path('loan_edit', {'id': loan.id}) }}">edit</a>
+
+    {{ include('loan/_delete_form.html.twig') }}
+{% endblock %}

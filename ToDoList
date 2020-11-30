@@ -1,0 +1,40 @@
+Un utilisateur ne peut pas emprunter plus de 5 ressources 
+public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+// fonction pour connaitre le nombre de ressources 
+function getSizeLoan( return  this->loans | length) : int 
+
+
+//LoanController 
+public function Emprunter(Request $request,  Ressource $ressource, User $user) {
+    //Récupère le nombre d'emprunt en sa possession 
+    $user->return nombre; 
+    $form 
+    $form->request 
+
+        if(valider et soumit ) {
+            //Vérifie le nombre de ressource emprunter par le user 
+            if(count($user->getLoans) <6 ) {
+                //Ajoute la ressource à l'utilisateur 
+                    $user->setLoans($ressource)
+                    //met la ressource non disponible 
+                    $ressource->setAvailibility(0); 
+                
+                $manager->persist($user);
+                $manager->persist($ressource); 
+            }else{
+                //Retourne un flash d'interdiction d'emprunt 
+                $this->addFlashe(
+                    "warning", 
+                    "Vous ne pouvez pas enprunter"
+                )
+            }
+            
+            return render(formulaire)
+        
+        
+    }
+
+}

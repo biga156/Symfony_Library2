@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MicroFilm index{% endblock %}
+
+{% block body %}
+    <h1>MicroFilm index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Cote</th>
+                <th>Availability</th>
+                <th>Picture</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for micro_film in micro_films %}
+            <tr>
+                <td>{{ micro_film.id }}</td>
+                <td>{{ micro_film.title }}</td>
+                <td>{{ micro_film.cote }}</td>
+                <td>{{ micro_film.availability ? 'Yes' : 'No' }}</td>
+                <td>{{ micro_film.picture }}</td>
+                <td>{{ micro_film.createdAt ? micro_film.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('micro_film_show', {'id': micro_film.id}) }}">show</a>
+                    <a href="{{ path('micro_film_edit', {'id': micro_film.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('micro_film_new') }}">Create new</a>
+{% endblock %}
