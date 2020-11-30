@@ -11,14 +11,7 @@
 					<span class="sr-only">(current)</span>
 				</a>
 			</li>
-			{% if app.user %}
-				{% if app.user.roles == ['ROLE_ADMIN'] %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('user_index') }}">Utilisateurs</a>
-					</li>
-
-
-					<li class="nav-item dropdown">
+				<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Ressources
 						</a>
@@ -31,6 +24,15 @@
 							<a class="dropdown-item" href="#"></a>
 						</div>
 					</li>
+			{% if app.user %}
+				{% if app.user.roles == ['ROLE_VOLONTEER'] %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('user_index') }}">Utilisateurs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('loan_index') }}">Emprunter</a>
+					</li>
+				
 				{% endif %}
 			</ul>
 			<ul class="navbar-nav mr-left">
@@ -38,7 +40,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="{{path('app_logout')}}">Se déconnecter</a>
 				</li>
-			{% else %}
+			{% else %}L
 				<li class="nav-item">
 					<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
 				</li>
