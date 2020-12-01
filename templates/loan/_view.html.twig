@@ -1,9 +1,10 @@
 <tr>
 	{#<td>{{ loan.id }}</td>#}
 	<td>
+	
 		<a href="{{path('user_show', {'id':loan.user.id} )}}">
 			{{loan.user.firstname}}
-		</a>
+		</a> 
 	</td>
 	<td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 	<td>{{ loan.udatedAt ? loan.udatedAt|date('Y-m-d H:i:s') : '' }}</td>
