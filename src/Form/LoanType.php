@@ -43,8 +43,6 @@ class LoanType extends AbstractType
                     $livre -> getTitle()
                 );
                 },
-                //TODO: array collection?
-                //'choice_value' => ,
                 'placeholder' => 'aucun',
                 'required' => false,
                 
@@ -61,7 +59,14 @@ class LoanType extends AbstractType
                         ->setParameter('val', true)
                         ->orderBy('c.title', 'ASC');
                 },
-                'choice_label' => 'title',
+                'choice_label' =>  function (CDRom $cdrom) {
+                    return sprintf('(%d)- %s : %s',
+                    $cdrom -> getId(),
+                    $cdrom -> getAuthtor(),
+                    $cdrom -> getTitle()
+                );
+                },
+                'required' => false,
             
 
             ]);

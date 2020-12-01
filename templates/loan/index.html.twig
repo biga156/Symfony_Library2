@@ -3,12 +3,12 @@
 {% block title %}Loan index{% endblock %}
 
 {% block body %}
-    <h1>Loan index</h1>
+    <h1>Empruntes</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+               
                 <th>CreatedAt</th>
                 <th>UdatedAt</th>
                 <th>Searchable</th>
@@ -19,11 +19,13 @@
         <tbody>
         {% for loan in loans %}
             <tr>
-                <td>{{ loan.id }}</td>
+                {#<td>{{ loan.id }}</td>#}
                 <td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ loan.udatedAt ? loan.udatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ loan.searchable ? 'Yes' : 'No' }}</td>
                 <td>{{ loan.status ? 'Yes' : 'No' }}</td>
+                
+                
                 <td>
                     <a href="{{ path('loan_show', {'id': loan.id}) }}">show</a>
                     <a href="{{ path('loan_edit', {'id': loan.id}) }}">edit</a>
