@@ -35,14 +35,15 @@ class LoanController extends AbstractController
         $form->handleRequest($request);
      
         if ($form->isSubmitted() && $form->isValid()) {
-                
-                        
+            
+            $loan->setCreatedAt(new \DateTime()); 
             //1) Affecter l'emprunt à l'utilisateur
             //2) Mettre l'emprunt non disponible
             //3) Enregistrer la date de création de l'emprunt
             //4) Mettre le statut à jour
             //5) Vérifier si l'emprunt est un renouvellement (updatedAt)
-  
+            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($loan);
             $entityManager->flush();
