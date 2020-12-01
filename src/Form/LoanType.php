@@ -25,9 +25,9 @@ class LoanType extends AbstractType
                 'choice_label' => function ($user) {
                     return $user->getFirstName();
                 }
-            ])
+            ]) 
 
-           /* ->add('livres', EntityType::class, [
+            ->add('livres', EntityType::class, [
                 'class' => Livre::class,
                 'query_builder' => function (LivreRepository $livre) {
                     return $livre->createQueryBuilder('l')
@@ -35,7 +35,15 @@ class LoanType extends AbstractType
                         ->setParameter('val', true)
                         ->orderBy('l.title', 'ASC');
                 },
-                'choice_label' => 'title',
+                'choice_label' =>  function (Livre $livre) {
+                    return sprintf('(%d)- %s : %s',
+                    $livre -> getId(),
+                    $livre -> getAuthtor(),
+                    $livre -> getTitle()
+                );
+                },
+                //TODO: array collection?
+                //'choice_value' => ,
                 'placeholder' => 'aucun',
                 'required' => false,
                 
@@ -54,7 +62,7 @@ class LoanType extends AbstractType
                 'choice_label' => 'title',
             
 
-            ])*/;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -36,9 +36,6 @@ class LoanController extends AbstractController
      
         if ($form->isSubmitted() && $form->isValid()) {
                 
-            $valeur = $form["livres"]->getData(); 
-            var_dump($valeur);
-            die();
                         
             //1) Affecter l'emprunt à l'utilisateur
             //2) Mettre l'emprunt non disponible
