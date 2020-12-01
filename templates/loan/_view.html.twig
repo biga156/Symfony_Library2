@@ -1,0 +1,18 @@
+<tr>
+	{#<td>{{ loan.id }}</td>#}
+	<td>
+		<a href="{{path('user_show', {'id':loan.user.id} )}}">
+			{{loan.user.firstname}}
+		</a>
+	</td>
+	<td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+	<td>{{ loan.udatedAt ? loan.udatedAt|date('Y-m-d H:i:s') : '' }}</td>
+	<td>{{ loan.searchable ? 'Yes' : 'No' }}</td>
+	<td>{{ loan.status ? 'Yes' : 'No' }}</td>
+
+
+	<td>
+		<a href="{{ path('loan_show', {'id': loan.id}) }}">show</a>
+		<a href="{{ path('loan_edit', {'id': loan.id}) }}">edit</a>
+	</td>
+</tr>

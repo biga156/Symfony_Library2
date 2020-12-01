@@ -3,13 +3,17 @@
 {% block title %}Loan{% endblock %}
 
 {% block body %}
-    <h1>Loan</h1>
+    <h1>Emprunt {{loan.id}}</h1>
 
-    <table class="table">
+    <table class="table"></table>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ loan.id }}</td>
+                <th>User</th>
+                <td>User (link)</td>
+            </tr>
+             <tr>
+                <th>Resources</th>
+                <td>Resources (list/link)</td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
