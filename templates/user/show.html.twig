@@ -80,7 +80,23 @@
                         
 					{% endfor %}
 				{% endfor %}
-		
+			{% for loan in user.loans %}
+					{% for cdroms in loan.cdrom %}
+                    <tr>
+						{% for cdrom in loan.cdrom %}
+							{% if cdrom.title %}
+								<td>
+									{{cdrom.title}}
+								</td>
+								<td>
+									{{loan.createdAt |date('d-m-Y')}}
+								</td>
+							{% endif %}
+                            </tr>
+						{% endfor %}
+                        
+					{% endfor %}
+				{% endfor %}
 		</tbody>
 	</table>
 

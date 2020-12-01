@@ -178,8 +178,10 @@ class Loan
 
     public function __toString()
     {
-        return $this->livres; 
+        return $this->cdrom; 
     }
+
+    
 
    
 }
