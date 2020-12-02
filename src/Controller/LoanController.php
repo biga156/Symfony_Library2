@@ -25,6 +25,7 @@ class LoanController extends AbstractController
     {
         return $this->render('loan/index.html.twig', [
             'loans' => $loanRepository->findAll(),
+            
         ]);
     }
 

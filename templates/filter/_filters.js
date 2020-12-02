@@ -66,9 +66,9 @@ selectUser.addEventListener("change", function() {
     });
 });
 
-//2. filter : key 
+//2. filter : status 
 //v0
-let listInput = document.getElementById('lstkeywords');
+let listInput = document.getElementById('lststatus');
 let listOption = listInput.querySelectorAll('option');
 listInput.addEventListener("change", filterByKeyword);
 
