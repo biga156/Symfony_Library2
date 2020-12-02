@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\LivreRepository;
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Ressources;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LivreRepository;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 /**
  * @ORM\Entity(repositoryClass=LivreRepository::class)
+ * @ORM\HasLifecycleCallbacks
+ * 
  */
 class Livre extends Ressource
 {

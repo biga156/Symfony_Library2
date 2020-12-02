@@ -13,7 +13,6 @@
 				<th>CreatedAt</th>
 				<th>UdatedAt</th>
 				<th>Status</th>
-
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -29,7 +28,6 @@
 					<td>{{ loan.createdAt ? loan.createdAt|date('Y-m-d H:i:s') : '' }}
                     </td>
 					<td>{{ loan.udatedAt ? loan.udatedAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ loan.searchable ? 'Yes' : 'No' }}</td>
 					<td>{{ loan.status ? 'Yes' : 'No' }}</td>
 
 
@@ -48,3 +46,8 @@
 
 	<a href="{{ path('loan_new') }}">Create new</a>
 {% endblock %}
+{% block javascripts %}
+    <script>
+        {% include "filter/_filters.js" %}
+    </script>
+${% endblock %}

@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Loan;
+use App\Entity\User;
+use App\Entity\CDRom;
+use App\Entity\Livre;
 use App\Form\LoanType;
 use App\Repository\LoanRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/loan")
@@ -26,18 +29,40 @@ class LoanController extends AbstractController
     }
 
     /**
+     * Allows you to renew a loan 
+     * @Route("/renew" , name="loan_renew")
+     */
+    public function renewal(Loan $loan, User $user) {
+        $loan->setUdatedAt(new \DateTime()); 
+        return  $this->redirectToRoute('user_show',
+                    [
+                        'id'=>$user
+                    ]);
+    }
+
+    /**
      * @Route("/new", name="loan_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Livre $livre, CDRom $cdrom): Response
     {
         $loan = new Loan();
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
      
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //make the books unavailable
+            $livres = $form->getData()["livres"]; 
+            foreach ($livres as $key => $livre) {
+                $livre->setAvailability(false); 
+            }
+            //make the cdrom unavailable 
+            $cdroms = $form->getData()["cdrom"]; 
+            foreach ($cdroms as $key => $cdrom) {
+                $cdrom->setAvailability(false); 
+            }
             
-            $loan->setCreatedAt(new \DateTime()); 
-            //1) Affecter l'emprunt à l'utilisateur
+            //$loan->setCreatedAt(new \DateTime()); 
             //2) Mettre l'emprunt non disponible
             //3) Enregistrer la date de création de l'emprunt
             //4) Mettre le statut à jour
@@ -87,6 +112,7 @@ class LoanController extends AbstractController
         ]);
     }
 
+    
     /**
      * @Route("/{id}", name="loan_delete", methods={"DELETE"})
      */

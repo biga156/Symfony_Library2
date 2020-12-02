@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Livre index</h1>
 
-    <table class="table">
+    <table class="table" id="lstindex">
         <thead>
             <tr>
                 <th>Id</th>
@@ -43,4 +43,11 @@
     </table>
 
     <a href="{{ path('livre_new') }}">Create new</a>
+        
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        {% include "filter/_filters.js" %}
+    </script>
+${% endblock %}

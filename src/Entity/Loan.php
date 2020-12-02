@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\LoanRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LoanRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @ORM\Entity(repositoryClass=LoanRepository::class)
+ * * @ORM\HasLifecycleCallbacks
  */
 class Loan
 {
@@ -61,7 +63,25 @@ class Loan
         $this->cdrom = new ArrayCollection();
     }
 
-   
+       /**
+     * perrmet d'initialiser un slug
+     * @ORM\PrePersist
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        //records the current date when a loan is created 
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime(); 
+        }
+
+        //makes a loan active 
+        if (empty($this->status)) {
+            $this->status = true; 
+        }
+    }
+
 
     public function getId(): ?int
     {
