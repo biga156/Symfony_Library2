@@ -5,16 +5,7 @@
 
 {% block body %}
 
-	<div class='form-group'>
-		<label for='lstuser'>Filrer par utilisateur</label>
-		<select class='form-control' id='lstuser' name='lstuser'></select>
-		
-	</div>
-	<div class='form-group'>
-		<label for='lststatus'>Filrer par status</label>
-		<select class='form-control' id='lststatus' name='lststatus'></select>
 
-	</div>
 
 	<h1>Empruntes</h1>
 
@@ -29,6 +20,16 @@
 			</tr>
 		</thead>
 		<tbody>
+
+
+	<label for='lstusers'>Filrer par utilisateur</label>
+	<select class="browser-default custom-select" id='lstusers'>
+		{% for loan in loans %}
+			<option class='form-group' value={{loan.user.firstname}} select="selected">{{loan.user.firstname}}</option>
+		{% endfor %}
+	</select>
+
+		
 			{% for loan in loans %}
 				<tr>
 					{#<td>{{ loan.id }}</td>#}
@@ -61,5 +62,5 @@
 {% block javascripts %}
 	<script>
 		{% include "filter/_filters.js" %}</script>
-	$
+
 {% endblock %}

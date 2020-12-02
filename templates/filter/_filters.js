@@ -63,6 +63,8 @@ selectUser.addEventListener("change", function() {
         tr.style.display = "none";
         if (tr.className.includes(selectUser.value))
             tr.style.display = "table-row";
+
+
     });
 });
 

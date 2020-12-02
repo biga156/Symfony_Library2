@@ -44,7 +44,7 @@ class LoanController extends AbstractController
     /**
      * @Route("/new", name="loan_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Livre $livre, CDRom $cdrom): Response
+    public function new(Request $request ): Response
     {
         $loan = new Loan();
         $form = $this->createForm(LoanType::class, $loan);
@@ -53,14 +53,14 @@ class LoanController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //make the books unavailable
-            $livres = $form->getData()["livres"]; 
+            $livres = $form->getData()->getLivres(); 
             foreach ($livres as $key => $livre) {
-                $livre->setAvailability(false); 
+                       $livre->setAvailability(false); 
             }
             //make the cdrom unavailable 
-            $cdroms = $form->getData()["cdrom"]; 
+            $cdroms = $form->getData()->getCdrom(); 
             foreach ($cdroms as $key => $cdrom) {
-                $cdrom->setAvailability(false); 
+                       $cdrom->setAvailability(false); 
             }
             
             //$loan->setCreatedAt(new \DateTime()); 
