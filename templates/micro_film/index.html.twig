@@ -5,7 +5,7 @@
 {% block body %}
     <h1>MicroFilm index</h1>
 
-    <table class="table">
+    <table class="table" id="lstindex">
         <thead>
             <tr>
                 <th>Id</th>
@@ -41,11 +41,6 @@
 
     <a href="{{ path('micro_film_new') }}">Create new</a>
 {% endblock %}
-{% block javascripts %}
-    <script>
-        {% include "filter/_filters.js" %}
-    </script>
-${% endblock %}
 {% block javascripts %}
     <script>
         {% include "filter/_filters.js" %}
