@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Livre;
+use App\Entity\Rechercher;
 use App\Form\LivreType;
 use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,25 +19,25 @@ class LivreController extends AbstractController
     /**
      * @Route("/", name="livre_index", methods={"GET"})
      */
-    public function index(LivreRepository $livreRepository): Response
+    public function index(LivreRepository $livreRepository, Request $request): Response
     {
         
-        return $this->render('livre/index.html.twig', [
+        /*return $this->render('livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
-        ]);
+        ]);*/
 
-        /*$search = new Rechercher();
+        $search = new Rechercher();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $donnees = $livreRepositor->findAll();
+        $donnees = $livreRepository->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $title = $form->getData()->getTitre();
             $authtor = $form->getData()->getAuthor();
 
-            $donnees = $livreRepositor->findLivre($title,$authtor);
+            $donnees = $livreRepository->findLivre($title,$authtor);
 
 
             if ($donnees == null) {
@@ -46,9 +47,9 @@ class LivreController extends AbstractController
         
 
         return $this->render('livre/index.html.twig', [
-            'livres' => $livreRepositor->findAll(),
+            'livres' => $livreRepository->findAll(),
             'form' => $form->createView()
-        ]);*/
+        ]);
     }
 
     /**
