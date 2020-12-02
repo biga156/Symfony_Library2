@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Livre;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use App\Entity\Rechercher;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Livre|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +20,18 @@ class LivreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livre::class);
     }
+
+    public function findLivre($title, $authtor) {
+        return $this->createQueryBuilder('Livre')
+            ->andWhere('Livre.title LIKE :title')
+            ->andWhere('Livre.authtor LIKE :authtor')
+            ->setParameter('title', '%'.$title.'%')
+            ->setParameter('authtor', '%'.$authtor.'%')
+            ->getQuery()
+            ->execute();
+    }
+
+
 
     // /**
     //  * @return Livre[] Returns an array of Livre objects

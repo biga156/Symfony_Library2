@@ -20,9 +20,35 @@ class LivreController extends AbstractController
      */
     public function index(LivreRepository $livreRepository): Response
     {
+        
         return $this->render('livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
         ]);
+
+        /*$search = new Rechercher();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+
+        $donnees = $livreRepositor->findAll();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $title = $form->getData()->getTitre();
+            $authtor = $form->getData()->getAuthor();
+
+            $donnees = $livreRepositor->findLivre($title,$authtor);
+
+
+            if ($donnees == null) {
+                $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
+            }
+        }
+        
+
+        return $this->render('livre/index.html.twig', [
+            'livres' => $livreRepositor->findAll(),
+            'form' => $form->createView()
+        ]);*/
     }
 
     /**
@@ -90,5 +116,21 @@ class LivreController extends AbstractController
         }
 
         return $this->redirectToRoute('livre_index');
+    }
+
+    public function searchLivre(Request $request)
+    {
+        $livre = null;
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+          $title = $form->getData()["title"];
+          $livre = $this->getDoctrine()->getManager()->getRepository(Livre::class)->findBy(["title" => $title]);
+        }
+        return $this->render('livre/index.html.twig', [
+            'livre' => $livre,
+            'form' => $form->createView(),
+        ]);
     }
 }
