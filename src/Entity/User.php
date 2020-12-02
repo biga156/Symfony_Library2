@@ -72,7 +72,7 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $fees;
-
+ 
     /**
      * @ORM\OneToMany(targetEntity=Loan::class, mappedBy="user")
      */
