@@ -173,6 +173,21 @@ class Loan
     }
 
     /**
+     * Rendre le livre disponible 
+     */
+    public function AvailabilityLivre(Livre $livre) {
+        $livre->setAvailability(true); 
+    }
+
+    /**
+     * Permet d'affecter une date d'emprunt et maj d'un livre
+     */
+    public function updatedAtLivre(Livre $livre) {
+        //$livre->setUpdatedAt(new \DateTime()); 
+    }
+
+
+    /**
      * @return Collection|CDRom[]
      */
     public function getCdrom(): Collection

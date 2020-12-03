@@ -1,4 +1,4 @@
-a{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}User
 {% endblock %}
@@ -54,6 +54,7 @@ a{% extends 'base.html.twig' %}
 			<tr>
 				<td>Titre</td>
 				<td>Date d'emprunt</td>
+				<td>Date de renouvellement</td>
 				<td>Réstitution</td>
 				<td>Renouvellement</td>
 			</tr>
@@ -73,10 +74,13 @@ a{% extends 'base.html.twig' %}
 										{{loan.createdAt |date('d-m-Y')}}
 									</td>
 									<td>
+										{{loan.udatedAt |date('d-m-Y:h-m-s')}}
+									</td>
+									<td>
 										<a href="{{path('loan_edit', {'id':loan.id,'livre':livre.id,'user':user.id})}}">Restitution</a>
 									</td>
 									<td>
-										<a href="{{path('loan_renew')}}">Renouvellement</a>
+										<a href="{{path('loan_edit', {'id':loan.id,'livre':livre.id,'user':user.id , 'renew':1})}}">Renouvellement</a>
 									</td>
 								{% endif %}
 							</tr>
@@ -84,6 +88,7 @@ a{% extends 'base.html.twig' %}
 
 					{% endfor %}
 				{% endfor %}
+				****************************
 				{% for loan in user.loans %}
 					{% for cdroms in loan.cdrom %}
 						<tr>
@@ -94,6 +99,9 @@ a{% extends 'base.html.twig' %}
 									</td>
 									<td>
 										{{loan.createdAt |date('d-m-Y')}}
+									</td>
+									<td>
+										{{loan.udatedAt |date('d-m-Y:h-m-s')}}
 									</td>
 									<td>
 										<a href="{{path('loan_edit', {'id':loan.id,'cdrom':cdrom.id,'user':user.id})}}">Restitution</a>
