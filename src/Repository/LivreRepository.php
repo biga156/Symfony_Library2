@@ -61,4 +61,14 @@ class LivreRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOneBySomeField($value): ?Livre
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

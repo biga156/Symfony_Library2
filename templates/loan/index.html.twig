@@ -23,7 +23,7 @@
 
 
 	<label for='lstusers'>Filrer par utilisateur</label>
-	<select class="browser-default custom-select" id='lstusers'>
+	<select class="browser-default custom-select" id="lstusers">
 		{% for loan in loans %}
 			<option class='form-group' value={{loan.user.firstname}} select="selected">{{loan.user.firstname}}</option>
 		{% endfor %}
@@ -55,7 +55,7 @@
 				</tr>
 			{% endfor %}
 		</tbody>
-	</table>
+	</table> 
 
 	<a href="{{ path('loan_new') }}">Create new</a>
 {% endblock %}
@@ -63,4 +63,5 @@
 	<script>
 		{% include "filter/_filters.js" %}</script>
 
+</script>
 {% endblock %}

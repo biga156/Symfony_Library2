@@ -31,7 +31,7 @@
 				<th>Address</th>
 				<td>{{ user.address }}</td>
 			</tr>
-			<tr>
+			<tr></tr>
 				<th>PostalCode</th>
 				<td>{{ user.postalCode }}</td>
 			</tr>
@@ -72,6 +72,12 @@
 									<td>
 										{{loan.createdAt |date('d-m-Y')}}
 									</td>
+									<td></td>
+										<a href="{{path('loan_edit', {'id':loan.id,'livre':livre.id,'user':user.id})}}">Restitution</a>
+									</td>
+									<td>
+										<a href="">Renouvellement</a>
+									</td>
 								{% endif %}
 							</tr>
 						{% endfor %}
@@ -88,6 +94,12 @@
 									</td>
 									<td>
 										{{loan.createdAt |date('d-m-Y')}}
+									</td>
+									<td>
+										<a href="">Restitution</a>
+									</td>
+									<td>
+										<a href="">Renouvellement</a>
 									</td>
 								{% endif %}
 							</tr>

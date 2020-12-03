@@ -8,8 +8,16 @@
 		<div class="container">
 
 			{{ form_start(form) }}
+            <div class="rom">
+                <div class="col">
+                    {{form_row(form.title)}}
+                </div>
+                <div class="col">
+                    {{form_row(form.authtor)}}
+                </div>
+            </div>
+            {{form_widget(form)}}
 			<button class="btn btn-primary">rechercher</button>
-
 			{{ form_end(form) }}
 
 

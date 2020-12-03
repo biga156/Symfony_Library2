@@ -31,7 +31,6 @@ class LivreController extends AbstractController
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
-        $donnees = $livreRepository->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -40,9 +39,10 @@ class LivreController extends AbstractController
 
             
 
-            if ($donnees == null) {
+            if (empty($title) && empty($authtor)) {
                 $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
             }
+
             return $this->render('livre/index.html.twig', [
                 'livres' => $livreRepository->findLivre($title,$authtor),
                 'form' => $form->createView()

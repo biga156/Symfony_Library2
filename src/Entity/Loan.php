@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /** 
  * @ORM\Entity(repositoryClass=LoanRepository::class)
- * * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  */
 class Loan
 {

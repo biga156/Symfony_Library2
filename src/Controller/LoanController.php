@@ -8,6 +8,7 @@ use App\Entity\CDRom;
 use App\Entity\Livre;
 use App\Form\LoanType;
 use App\Repository\LoanRepository;
+use App\Repository\LivreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,17 +58,21 @@ class LoanController extends AbstractController
             foreach ($livres as $key => $livre) {
                        $livre->setAvailability(false); 
             }
+
             //make the cdrom unavailable 
             $cdroms = $form->getData()->getCdrom(); 
             foreach ($cdroms as $key => $cdrom) {
                        $cdrom->setAvailability(false); 
             }
             
-            //$loan->setCreatedAt(new \DateTime()); 
-            //2) Mettre l'emprunt non disponible
-            //3) Enregistrer la date de création de l'emprunt
+            #//$loan->setCreatedAt(new \DateTime()); 
+            #//2) Mettre l'emprunt non disponible
+            #//3) Enregistrer la date de création de l'emprunt
             //4) Mettre le statut à jour
             //5) Vérifier si l'emprunt est un renouvellement (updatedAt)
+            //6) Vérifier qu'il peut encore emprunter pas plus de 5 emprunts 
+            //7) Vérifier qu'il posséde la caution 
+            //8) Vérifier que la ressource n'a pas atteint la date limite d'emprunt 
             
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -96,10 +101,32 @@ class LoanController extends AbstractController
     /**
      * @Route("/{id}/edit", name="loan_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Loan $loan): Response
+    public function edit(Request $request, Loan $loan, LivreRepository $LivreRepository): Response
     {
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
+
+        if($_GET["livre"]) {
+                    $this>$this->addFlash(
+                        'success',
+                        'votre action a fonctionnée '
+                );
+
+               //rendre le livre disponible 
+                $livre=$LivreRepository->findOneById($_GET["livre"]);
+              // dd($livre);
+              
+             $livre->setAvailability(true); 
+
+               //sortir le livre de l'emprunt 
+                 $loan->removeLivre($livre);
+
+                 $this->getDoctrine()->getManager()->flush();
+                 //redirection vers le user_show 
+               return $this->redirectToRoute("user_show", [
+                   "id"=>$_GET["user"],
+               ]); 
+        }
  
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();

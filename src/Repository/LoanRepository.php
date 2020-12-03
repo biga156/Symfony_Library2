@@ -47,4 +47,6 @@ class LoanRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    
 }
