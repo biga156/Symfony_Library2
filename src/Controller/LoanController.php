@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\CDRom;
 use App\Entity\Livre;
 use App\Form\LoanType;
+use App\Repository\CDRomRepository;
 use App\Repository\LoanRepository;
 use App\Repository\LivreRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,54 +27,51 @@ class LoanController extends AbstractController
     {
         return $this->render('loan/index.html.twig', [
             'loans' => $loanRepository->findAll(),
-            
         ]);
     }
 
     /**
-     * Allows you to renew a loan 
+     * Allows you to renew a loan
      * @Route("/renew" , name="loan_renew")
      */
-    public function renewal(Loan $loan, User $user) {
-        $loan->setUdatedAt(new \DateTime()); 
-        return  $this->redirectToRoute('user_show',
-                    [
-                        'id'=>$user
-                    ]);
+    public function renew(Loan $loan, User $user)
+    {
+        $loan->setUdatedAt(new \DateTime());
+        return $this->redirectToRoute('user_show', [
+            'id' => $user,
+        ]);
     }
 
     /**
      * @Route("/new", name="loan_new", methods={"GET","POST"})
      */
-    public function new(Request $request ): Response
+    public function new(Request $request): Response
     {
         $loan = new Loan();
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
-     
+
         if ($form->isSubmitted() && $form->isValid()) {
-
             //make the books unavailable
-            $livres = $form->getData()->getLivres(); 
+            $livres = $form->getData()->getLivres();
             foreach ($livres as $key => $livre) {
-                       $livre->setAvailability(false); 
+                $livre->setAvailability(false);
             }
 
-            //make the cdrom unavailable 
-            $cdroms = $form->getData()->getCdrom(); 
+            //make the cdrom unavailable
+            $cdroms = $form->getData()->getCdrom();
             foreach ($cdroms as $key => $cdrom) {
-                       $cdrom->setAvailability(false); 
+                $cdrom->setAvailability(false);
             }
-            
-            #//$loan->setCreatedAt(new \DateTime()); 
+
+            #//$loan->setCreatedAt(new \DateTime());
             #//2) Mettre l'emprunt non disponible
             #//3) Enregistrer la date de création de l'emprunt
             //4) Mettre le statut à jour
             //5) Vérifier si l'emprunt est un renouvellement (updatedAt)
-            //6) Vérifier qu'il peut encore emprunter pas plus de 5 emprunts 
-            //7) Vérifier qu'il posséde la caution 
-            //8) Vérifier que la ressource n'a pas atteint la date limite d'emprunt 
-            
+            //6) Vérifier qu'il peut encore emprunter pas plus de 5 emprunts
+            //7) Vérifier qu'il posséde la caution
+            //8) Vérifier que la ressource n'a pas atteint la date limite d'emprunt
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($loan);
@@ -95,41 +93,67 @@ class LoanController extends AbstractController
     {
         return $this->render('loan/show.html.twig', [
             'loan' => $loan,
-        ]); 
+        ]);
     }
 
     /**
      * @Route("/{id}/edit", name="loan_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Loan $loan, LivreRepository $LivreRepository): Response
-    {
+    public function edit(
+        Request $request,
+        Loan $loan,
+        LivreRepository $LivreRepository,
+        CDRomRepository $CDRomRepository
+    ): Response {
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
 
-        if($_GET["livre"]) {
-                    $this>$this->addFlash(
-                        'success',
-                        'votre action a fonctionnée '
-                );
+        if (isset($_GET['livre'])) {
+            $this > $this->addFlash('success', 'votre action a fonctionnée ');
 
-               //rendre le livre disponible 
-                $livre=$LivreRepository->findOneById($_GET["livre"]);
-              // dd($livre);
-              
-             $livre->setAvailability(true); 
+            //rendre le livre disponible
+            $livre = $LivreRepository->findOneById($_GET['livre']);
+            // dd($livre);
 
-               //sortir le livre de l'emprunt 
-                 $loan->removeLivre($livre);
+            $livre->setAvailability(true);
 
-                 $this->getDoctrine()->getManager()->flush();
-                 //redirection vers le user_show 
-               return $this->redirectToRoute("user_show", [
-                   "id"=>$_GET["user"],
-               ]); 
+            //sortir le livre de l'emprunt
+            $loan->removeLivre($livre);
+
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+            //redirection vers le user_show
+            return $this->redirectToRoute('user_show', [
+                'id' => $_GET['user'],
+            ]);
         }
- 
+
+        if (isset($_GET['cdrom'])) {
+            $this > $this->addFlash('success', 'votre action a fonctionnée ');
+
+            //rendre le livre disponible
+            $cdrom = $CDRomRepository->findOneById($_GET['cdrom']);
+            // dd($livre);
+
+            $cdrom->setAvailability(true);
+
+            //sortir le livre de l'emprunt
+            $loan->removeCDRom($cdrom);
+
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+            //redirection vers le user_show
+            return $this->redirectToRoute('user_show', [
+                'id' => $_GET['user'],
+            ]);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             return $this->redirectToRoute('loan_index');
         }
@@ -140,13 +164,17 @@ class LoanController extends AbstractController
         ]);
     }
 
-    
     /**
      * @Route("/{id}", name="loan_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Loan $loan): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$loan->getId(), $request->request->get('_token'))) {
+        if (
+            $this->isCsrfTokenValid(
+                'delete' . $loan->getId(),
+                $request->request->get('_token')
+            )
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($loan);
             $entityManager->flush();

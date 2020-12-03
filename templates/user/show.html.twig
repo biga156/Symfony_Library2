@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+a{% extends 'base.html.twig' %}
 
 {% block title %}User
 {% endblock %}
@@ -72,11 +72,11 @@
 									<td>
 										{{loan.createdAt |date('d-m-Y')}}
 									</td>
-									<td></td>
+									<td>
 										<a href="{{path('loan_edit', {'id':loan.id,'livre':livre.id,'user':user.id})}}">Restitution</a>
 									</td>
 									<td>
-										<a href="">Renouvellement</a>
+										<a href="{{path('loan_renew')}}">Renouvellement</a>
 									</td>
 								{% endif %}
 							</tr>
@@ -96,7 +96,7 @@
 										{{loan.createdAt |date('d-m-Y')}}
 									</td>
 									<td>
-										<a href="">Restitution</a>
+										<a href="{{path('loan_edit', {'id':loan.id,'cdrom':cdrom.id,'user':user.id})}}">Restitution</a>
 									</td>
 									<td>
 										<a href="">Renouvellement</a>
