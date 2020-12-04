@@ -15,10 +15,15 @@ class Rechercher
      *
      * @var string|null
      */
+    private $cote;
+
+     /**
+     *
+     * @var string|null
+     */
     private $author;
 
-    
- 
+
     public function getTitre(): ?string
     {
         return $this->titre;
@@ -39,6 +44,18 @@ class Rechercher
     public function setAuthor(?string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getCote(): ?string
+    {
+        return $this->cote;
+    } 
+
+    public function setCote(?string $cote): self
+    {
+        $this->cote = $cote;
 
         return $this;
     }

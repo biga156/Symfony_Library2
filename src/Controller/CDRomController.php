@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\CDRom;
 use App\Form\CDRomType;
+use App\Entity\Rechercher;
+use App\Form\SearchType;
 use App\Repository\CDRomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +20,35 @@ class CDRomController extends AbstractController
     /**
      * @Route("/", name="CD_index", methods={"GET"})
      */
-    public function index(CDRomRepository $cDRomRepository): Response
+    public function index(CDRomRepository $cDRomRepository, Request $request): Response
     {
+
+        $search = new Rechercher();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $title = $form->getData()->getTitre();
+            $author = $form->getData()->getAuthor();
+
+
+
+            if (empty($title) && empty($author)) {
+                $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
+            }
+
+            return $this->render('cd_rom/index.html.twig', [
+                'c_d_roms' => $cDRomRepository->findCdrom($title, $author),
+                'form' => $form->createView()
+            ]);
+        }
+
         return $this->render('cd_rom/index.html.twig', [
             'c_d_roms' => $cDRomRepository->findAll(),
+            'form' => $form->createView()
+
         ]);
     }
 
@@ -83,7 +110,7 @@ class CDRomController extends AbstractController
      */
     public function delete(Request $request, CDRom $cDRom): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$cDRom->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $cDRom->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cDRom);
             $entityManager->flush();

@@ -19,6 +19,20 @@ class NewsPaperRepository extends ServiceEntityRepository
         parent::__construct($registry, NewsPaper::class);
     }
 
+
+      //fonction pour trouver un journal à partir d'un titre ou de sa cote
+      public function findNewspaper($title, $cote)
+      {
+          return $this->createQueryBuilder('NewsPaper')
+              ->andWhere('NewsPaper.title LIKE :title')
+              ->andWhere('NewsPaper.cote LIKE :cote')
+              ->setParameter('title', '%' . $title . '%')
+              ->setParameter('cote', '%' . $cote . '%')
+              ->getQuery()
+              ->execute();
+      }
+  
+
     // /**
     //  * @return NewsPaper[] Returns an array of NewsPaper objects
     //  */

@@ -19,6 +19,19 @@ class CDRomRepository extends ServiceEntityRepository
         parent::__construct($registry, CDRom::class);
     }
 
+        // fonction pour trouver un CDRom par titre, auteur, ou cote
+        public function findCdrom($title, $authtor,$cote) {
+            return $this->createQueryBuilder('CDRom')
+                ->andWhere('CDRom.title LIKE :title')
+                ->andWhere('CDRom.authtor LIKE :authtor')
+                ->andWhere('CDRom.cote LIKE :cote')
+                ->setParameter('title', '%'.$title.'%')
+                ->setParameter('authtor', '%'.$authtor.'%')
+                ->setParameter('CDRom', '%'.$cote.'%')
+                ->getQuery()
+                ->execute();
+        }
+
     // /**
     //  * @return CDRom[] Returns an array of CDRom objects
     //  */

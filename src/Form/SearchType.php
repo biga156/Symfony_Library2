@@ -15,23 +15,28 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre',TextType::class, [
+
+            ->add('titre', TextType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Titre du livre'
+                    'placeholder' => 'Titre ouvrage'
                 ]
-            ] )
-            ->add('author',TextType::class, [
+            ])
+            ->add('author', TextType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'nom de auteur'
                 ]
-            ] )
-
-           
-        ;
+            ])
+            ->add('cote', TextType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'cote'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

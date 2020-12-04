@@ -19,6 +19,19 @@ class MicroFilmRepository extends ServiceEntityRepository
         parent::__construct($registry, MicroFilm::class);
     }
 
+
+       //fonction pour trouver un microFilm à partir d'un titre ou de sa cote
+       public function findMicroFilm($title, $cote)
+       {
+           return $this->createQueryBuilder('MicroFilm')
+               ->andWhere('MicroFilm.title LIKE :title')
+               ->andWhere('MicroFilm.cote LIKE :cote')
+               ->setParameter('title', '%' . $title . '%')
+               ->setParameter('cote', '%' . $cote . '%')
+               ->getQuery()
+               ->execute();
+       }
+
     // /**
     //  * @return MicroFilm[] Returns an array of MicroFilm objects
     //  */

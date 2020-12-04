@@ -74,9 +74,9 @@
 										{{loan.createdAt |date('d-m-Y')}}
 									</td>
 									<td>
-										{{loan.udatedAt |date('d-m-Y:h-m-s')}}
+										{{livre.updatedAt |date('d-m-Y:h-m-s')}}
 									</td>
-									<td>
+									<td>e
 										<a href="{{path('loan_edit', {'id':loan.id,'livre':livre.id,'user':user.id})}}">Restitution</a>
 									</td>
 									<td>

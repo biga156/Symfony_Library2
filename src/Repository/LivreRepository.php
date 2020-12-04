@@ -21,15 +21,22 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
-    public function findLivre($title, $authtor) {
+
+    //fonction pour trouver un livre à partir d'un titre, d'un auteur ou de sa cote
+    public function findLivre($title, $authtor, $cote)
+    {
         return $this->createQueryBuilder('Livre')
             ->andWhere('Livre.title LIKE :title')
+            ->setParameter('title', '%' . $title . '%')
             ->andWhere('Livre.authtor LIKE :authtor')
-            ->setParameter('title', '%'.$title.'%')
-            ->setParameter('authtor', '%'.$authtor.'%')
+            ->setParameter('authtor', '%' . $authtor . '%')
+            ->andWhere('Livre.cote LIKE :cote')
+            ->setParameter('cote', '%' . $cote . '%')
             ->getQuery()
             ->execute();
     }
+
+
 
 
 
@@ -68,7 +75,6 @@ class LivreRepository extends ServiceEntityRepository
             ->andWhere('l.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

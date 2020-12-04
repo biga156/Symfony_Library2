@@ -108,14 +108,18 @@ class LoanController extends AbstractController
         $form = $this->createForm(LoanType::class, $loan);
         $form->handleRequest($request);
 
-        if (isset($_GET['livre'])) {
-            $this->addFlash('success', 'votre action a fonctionnée ');
-
-            //rendre le livre disponible
+        if (isset($_GET['renew'])) {
             $livre = $LivreRepository->findOneById($_GET['livre']);
-
-            //availability changer function 
-            $loan->AvailabilityLivre($livre); 
+            //dd($livre);
+            $livre->setUpdatedAt(new \DateTime());
+            return $this->redirectToRoute('user_show', [
+                'id' => $_GET['user'],
+            ]);
+        } elseif (isset($_GET['livre'])) {
+            $this->addFlash('success', 'votre action a fonctionnée ');
+            $livre = $LivreRepository->findOneById($_GET['livre']);
+            //availability changer function
+            $loan->AvailabilityLivre($livre);
 
             //sortir le livre de l'emprunt
             $loan->removeLivre($livre);
@@ -127,9 +131,6 @@ class LoanController extends AbstractController
             return $this->redirectToRoute('user_show', [
                 'id' => $_GET['user'],
             ]);
-            if(isset($_GET["renew"])) {
-                $loan->setUdatedAt(new \DateTime()); 
-            }
         }
 
         if (isset($_GET['cdrom'])) {

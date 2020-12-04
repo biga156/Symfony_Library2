@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\NewsPaper;
 use App\Form\NewsPaperType;
+use App\Entity\Rechercher;
 use App\Repository\NewsPaperRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,35 @@ class NewsPaperController extends AbstractController
     /**
      * @Route("/", name="news_paper_index", methods={"GET"})
      */
-    public function index(NewsPaperRepository $newsPaperRepository): Response
+    public function index(NewsPaperRepository $newsPaperRepository, Request $request): Response
     {
+
+        $search = new Rechercher();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $title = $form->getData()->getTitre();
+            $cote = $form->getData()->getCote();
+
+
+
+            if (empty($title) && empty($cote)) {
+                $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
+            }
+
+            return $this->render('news_paper/index.html.twig', [
+                'news_papers' => $newsPaperRepository->findNewsPaper($title,$cote),
+                'form' => $form->createView()
+            ]);
+
+            }
         return $this->render('news_paper/index.html.twig', [
             'news_papers' => $newsPaperRepository->findAll(),
+            'form' => $form->createView()
+
         ]);
     }
 
