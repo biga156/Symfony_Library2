@@ -56,6 +56,7 @@ class NewsPaperController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
         $newsPaper = new NewsPaper();
         $form = $this->createForm(NewsPaperType::class, $newsPaper);
         $form->handleRequest($request);
@@ -89,6 +90,7 @@ class NewsPaperController extends AbstractController
      */
     public function edit(Request $request, NewsPaper $newsPaper): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
         $form = $this->createForm(NewsPaperType::class, $newsPaper);
         $form->handleRequest($request);
 
@@ -109,6 +111,7 @@ class NewsPaperController extends AbstractController
      */
     public function delete(Request $request, NewsPaper $newsPaper): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$newsPaper->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($newsPaper);

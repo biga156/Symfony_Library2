@@ -35,8 +35,16 @@ security:
     # Note: Only the *first* access control that matches will be used
  
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+          - { path: ^/loan, roles: ROLE_VOLONTEER }
+          # - { path: ^/user/(edit|show)/\d+$, roles: ROLE_USER }
+
+         # IS_AUTHENTICATED_REMEMBERED: All logged in users have this, even if they are logged in because of a “remember me cookie”. Even if you don’t use the remember me functionality, you can use this to check if the user is logged in.
+         # IS_AUTHENTICATED_FULLY: This is similar to IS_AUTHENTICATED_REMEMBERED, but stronger. Users who are logged in only because of a “remember me cookie” will have IS_AUTHENTICATED_REMEMBERED but will not have IS_AUTHENTICATED_FULLY.
+        # IS_AUTHENTICATED_ANONYMOUSLY: All users (even anonymous ones) have this - this is useful when whitelisting URLs to guarantee access - some details are in How Does the Security access_control Work?.
+        # IS_ANONYMOUS: Only anonymous users are matched by this attribute.
+        # IS_REMEMBERED: Only users authenticated using the remember me functionality, (i.e. a remember-me cookie).
+        # IS_IMPERSONATOR: When the current user is impersonating another user in this session, this attribute will match.
+
 
     role_hierarchy:
         ROLE_USER: ROLE_USER

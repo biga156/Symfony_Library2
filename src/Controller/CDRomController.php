@@ -57,6 +57,7 @@ class CDRomController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
         $cDRom = new CDRom();
         $form = $this->createForm(CDRomType::class, $cDRom);
         $form->handleRequest($request);
@@ -90,6 +91,7 @@ class CDRomController extends AbstractController
      */
     public function edit(Request $request, CDRom $cDRom): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
         $form = $this->createForm(CDRomType::class, $cDRom);
         $form->handleRequest($request);
 
@@ -110,6 +112,7 @@ class CDRomController extends AbstractController
      */
     public function delete(Request $request, CDRom $cDRom): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete' . $cDRom->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cDRom);

@@ -52,7 +52,30 @@ class MicroFilmController extends AbstractController
 
         ]);
     }
+ /**
+     * @Route("/new", name="c_d_rom_new", methods={"GET","POST"})
+     */
 
+    public function new(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
+        $microFilm = new MicroFilm();
+        $form = $this->createForm(MicroFilmType::class, $microFilm);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($microFilm);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('micro_film_index');
+        }
+
+        return $this->render('micro_film/new.html.twig', [
+            'micro_film' => $microFilm,
+            'form' => $form->createView(),
+        ]);
+    }
 
     /**
      * @Route("/{id}", name="micro_film_show", methods={"GET"})
@@ -69,6 +92,7 @@ class MicroFilmController extends AbstractController
      */
     public function edit(Request $request, MicroFilm $microFilm): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_VOLONTEER');
         $form = $this->createForm(MicroFilmType::class, $microFilm);
         $form->handleRequest($request);
 
@@ -89,6 +113,7 @@ class MicroFilmController extends AbstractController
      */
     public function delete(Request $request, MicroFilm $microFilm): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete' . $microFilm->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($microFilm);
