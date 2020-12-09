@@ -36,7 +36,7 @@ security:
  
     access_control:
           - { path: ^/loan, roles: ROLE_VOLONTEER }
-          # - { path: ^/user/(edit|show)/\d+$, roles: ROLE_USER }
+          # - { path: ^/user/(edit|show)/\d+$, roles: ROLE_VOLONTEER }
 
          # IS_AUTHENTICATED_REMEMBERED: All logged in users have this, even if they are logged in because of a “remember me cookie”. Even if you don’t use the remember me functionality, you can use this to check if the user is logged in.
          # IS_AUTHENTICATED_FULLY: This is similar to IS_AUTHENTICATED_REMEMBERED, but stronger. Users who are logged in only because of a “remember me cookie” will have IS_AUTHENTICATED_REMEMBERED but will not have IS_AUTHENTICATED_FULLY.

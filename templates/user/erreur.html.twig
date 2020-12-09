@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Erreur d'access{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<h1>Vous n'avez pas le droit d'acceder à cette page </h1>
+
+<a class="btn btn-primary" href="{{path('home')}}">Retour à l'acceuil</a>
+
+</div>
+
+{% endblock %}

@@ -8,10 +8,10 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 //composer require sensio/framework-extra-bundle
 
 /**
@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class UserController extends AbstractController
 {
-  
+
     /**
      * @IsGranted("ROLE_VOLONTEER")
      * @Route("/", name="user_index", methods={"GET"})
@@ -57,15 +57,23 @@ class UserController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{id}", name="account_show", methods={"GET"})
+     * @Route("/account/{id}", name="account_show", methods={"GET"})
      */
     public function userShow(User $user): Response
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
+        if($this->getUser() == $user) {
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+            ]);
+        }else{
+            return $this->render('user/erreur.html.twig', [
+                'user' => $user,
+            ]);
+        }
+        
     }
-    
+
+
     /**
      * @IsGranted("ROLE_VOLONTEER")
      * @Route("/{id}", name="user_show", methods={"GET"})
@@ -81,17 +89,17 @@ class UserController extends AbstractController
      * @IsGranted("ROLE_VOLONTEER")
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(UserPasswordEncoderInterface $encoder,Request $request, User $user): Response
+    public function edit(UserPasswordEncoderInterface $encoder, Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //Permet de crypter le mot de passe 
-            $motDePasse = $encoder->encodePassword($user, $user->getPassword()); 
-            
+            $motDePasse = $encoder->encodePassword($user, $user->getPassword());
+
             //Envoi le mot de passe crypté
-            $user->setPassword($motDePasse); 
+            $user->setPassword($motDePasse);
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -107,30 +115,38 @@ class UserController extends AbstractController
 
     /**
      * NOTE: Permet d'éditer le profil de l'utilisateur connecté 
-     * @Security("is_granted('ROLE_USER') and user == user.id()", message="Vous n'avez pas le droit à acceder à cette resources")
-     * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"})
+     * @Route("/account/{id}/edit", name="account_edit", methods={"GET","POST"})
      */
-    public function userEdit(UserPasswordEncoderInterface $encoder,Request $request, User $user): Response
+    public function userEdit(UserPasswordEncoderInterface $encoder, Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+        if($this->getUser() == $user) {
+            
         if ($form->isSubmitted() && $form->isValid()) {
             //Permet de crypter le mot de passe 
-            $motDePasse = $encoder->encodePassword($user, $user->getPassword()); 
-            
+            $motDePasse = $encoder->encodePassword($user, $user->getPassword());
+
             //Envoi le mot de passe crypté
-            $user->setPassword($motDePasse); 
+            $user->setPassword($motDePasse);
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('account_show', [
+                'id'=>$this->getUser()->getId()
+            ]);
         }
 
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
+        }else{
+            return $this->render('user/erreur.html.twig', [
+                'user' => $user,
+            ]);
+        }
     }
 
     /**
@@ -138,7 +154,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();

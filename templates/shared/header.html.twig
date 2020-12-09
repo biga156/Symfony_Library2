@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#">Guinot Bibliotheque</a>
+	<a class="navbar-brand" href="#">
+		Guinot Bibliotheque
+	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -7,8 +9,11 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
-				<a class="nav-link" href="{{path('home')}}">Accueil
-					<span class="sr-only">(current)</span>
+				<a class="nav-link" href="{{path('home')}}">
+					Accueil
+					<span class="sr-only">
+						(current)
+					</span>
 				</a>
 			</li>
 			<li class="nav-item dropdown">
@@ -16,10 +21,18 @@
 					Ressources
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="{{path('livre_index')}}">Livres</a>
-					<a class="dropdown-item" href="{{path('CD_index')}}">CD-Rom</a>
-					<a class="dropdown-item" href="{{path('news_paper_index')}}">Journaux</a>
-					<a class="dropdown-item" href="{{path('micro_film_index')}}">MicroFilms</a>
+					<a class="dropdown-item" href="{{path('livre_index')}}">
+						Livres
+					</a>
+					<a class="dropdown-item" href="{{path('CD_index')}}">
+						CD-Rom
+					</a>
+					<a class="dropdown-item" href="{{path('news_paper_index')}}">
+						Journaux
+					</a>
+					<a class="dropdown-item" href="{{path('micro_film_index')}}">
+						MicroFilms
+					</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="#"></a>
 				</div>
@@ -27,10 +40,14 @@
 			{% if app.user %}
 				{% if is_granted('ROLE_VOLONTEER')  %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('user_index') }}">Utilisateurs</a>
+						<a class="nav-link" href="{{ path('user_index') }}">
+							Utilisateurs
+						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('loan_index') }}">Emprunter</a>
+						<a class="nav-link" href="{{ path('loan_index') }}">
+							Emprunter
+						</a>
 					</li>
 
 				{% endif %}
@@ -38,16 +55,30 @@
 			<ul class="navbar-nav mr-left">
 
 				<li class="nav-item">
-					<a class="nav-link" href="{{path('app_logout')}}">Se déconnecter</a>
+					<a class="nav-link" href="{{path('app_logout')}}">
+						Se déconnecter
+					</a>
 				</li>
+				{% if is_granted('ROLE_VOLONTEER') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('user_show', {'id':app.user.id})}}">
+							Mon Compte
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('account_show', {'id':app.user.id})}}">
+							Mon Compte
+						</a>
+					</li>
+				{% endif %}
 
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('account_show', {'id': app.user.id}) }}">Mon compte</a>
-				</li>
 
 			{% else %}
 				<li class="nav-item">
-					<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
+					<a class="nav-link" href="{{path('app_login')}}">
+						Connexion
+					</a>
 				</li>
 
 
@@ -68,4 +99,3 @@
 		</div>
 	</div>
 {% endfor %}
-
