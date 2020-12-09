@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+   
+    {% if is_granted('ROLE_ADMIN') %}
+        {{form_row(form.roles)}}
+        {{form_row(form.fees)}}
+    {% elseif is_granted('ROLE_VOLONTEER') %}
+        {{form_row(form.fees)}}
+    {% else %}
+        {% do form.roles.setRendered() %}
+        {% do form.fees.setRendered() %}
+    {% endif %}
+
+     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -16,19 +16,24 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
+
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $builder
             ->add('email', EmailType::class)
+            
              ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Benevol' => 'ROLE_VOLONTEER',
                     'Gestionnaire' => 'ROLE_AGENT',
                     'Administrateurr' => 'ROLE_ADMIN',
+                    
                 ],
+                
                 'expanded' => false,
                 'multiple' => true,
                 //'choice_label' => ,
@@ -50,8 +55,10 @@ class UserType extends AbstractType
                 'disabled' => true,
                 'label' => 'Created (not editable)',
             ])
-            ->add('fees', CheckboxType::class)
+               ->add('fees', CheckboxType::class)
+            
         ;
+            
     }
 
     public function configureOptions(OptionsResolver $resolver)

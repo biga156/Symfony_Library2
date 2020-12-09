@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\NewsPaper;
 use App\Form\NewsPaperType;
+use App\Form\SearchType;
 use App\Entity\Rechercher;
 use App\Repository\NewsPaperRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
