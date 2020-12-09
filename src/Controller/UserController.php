@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 //composer require sensio/framework-extra-bundle
 
 /**
@@ -55,6 +56,17 @@ class UserController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/{id}", name="account_show", methods={"GET"})
+     */
+    public function userShow(User $user): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+    
+    /**
      * @IsGranted("ROLE_VOLONTEER")
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
@@ -92,17 +104,7 @@ class UserController extends AbstractController
         ]);
     }
 
-/**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     * @Route("/{id}", name="account_show", methods={"GET"})
-     */
-    public function userShow(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
- 
+
     /**
      * NOTE: Permet d'éditer le profil de l'utilisateur connecté 
      * @Security("is_granted('ROLE_USER') and user == user.id()", message="Vous n'avez pas le droit à acceder à cette resources")
