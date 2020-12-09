@@ -102,7 +102,7 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
-
+ 
     /**
      * NOTE: Permet d'éditer le profil de l'utilisateur connecté 
      * @Security("is_granted('ROLE_USER') and user == user.id()", message="Vous n'avez pas le droit à acceder à cette resources")
