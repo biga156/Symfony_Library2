@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -281,6 +282,12 @@ class User implements UserInterface
      */
     public function numberLoan() : int 
     {
-        return count($this->loans); 
+        $nb=0; 
+        foreach($this->loans as $loan) {
+            if($loan->getStatus() == true) {
+                $nb+=1; 
+            }
+        }
+        return $nb; 
     }
 }

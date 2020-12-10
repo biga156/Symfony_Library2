@@ -22,13 +22,6 @@
 		<tbody>
 
 
-	<label for='lstusers'>Filrer par utilisateur</label>
-	<select class="browser-default custom-select" id="lstusers">
-		{% for loan in loans %}
-			<option class='form-group' value={{loan.user.firstname}} select="selected">{{loan.user.firstname}}</option>
-		{% endfor %}
-	</select>
-
 		
 			{% for loan in loans %}
 				<tr>
@@ -57,7 +50,7 @@
 		</tbody>
 	</table> 
 
-	<a href="{{ path('loan_new') }}">Create new</a>
+	
 {% endblock %}
 {% block javascripts %}
 	<script>

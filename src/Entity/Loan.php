@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LoanRepository;
 use Doctrine\Common\Collections\Collection;
@@ -214,6 +215,11 @@ class Loan
     public function __toString()
     {
         return $this->cdrom; 
+    }
+
+    public function addUser(User $user)
+     {
+        $this->user = $user; 
     }
 
     

@@ -7,8 +7,9 @@ use App\Entity\User;
 use App\Entity\CDRom;
 use App\Entity\Livre;
 use App\Form\LoanType;
-use App\Repository\CDRomRepository;
 use App\Repository\LoanRepository;
+use App\Repository\UserRepository;
+use App\Repository\CDRomRepository;
 use App\Repository\LivreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class LoanController extends AbstractController
 {
+
     /**
      * @Route("/", name="loan_index", methods={"GET"})
      */
@@ -45,7 +47,7 @@ class LoanController extends AbstractController
     /**
      * @Route("/new", name="loan_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $reposUser): Response
     {
         $loan = new Loan();
         $form = $this->createForm(LoanType::class, $loan);
@@ -64,28 +66,24 @@ class LoanController extends AbstractController
                 $cdrom->setAvailability(false);
             }
 
-            #//$loan->setCreatedAt(new \DateTime());
-            #//2) Mettre l'emprunt non disponible
-            #//3) Enregistrer la date de création de l'emprunt
-            //4) Mettre le statut à jour
-            //5) Vérifier si l'emprunt est un renouvellement (updatedAt)
-            //6) Vérifier qu'il peut encore emprunter pas plus de 5 emprunts
-            //7) Vérifier qu'il posséde la caution
-            //8) Vérifier que la ressource n'a pas atteint la date limite d'emprunt
+          
+            //Create a query bulder to find a user 
+            $u = $reposUser->findOneById($_GET["user"]); 
+            $loan->setUser($u);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($loan);
             $entityManager->flush();
 
-            return $this->redirectToRoute('loan_index');
+            return $this->redirectToRoute('user_show', [
+                'id' => $form->getData()->getUser()->getId()
+            ]);
         }
-
         return $this->render('loan/new.html.twig', [
             'loan' => $loan,
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/{id}", name="loan_show", methods={"GET"})
      */

@@ -20,12 +20,12 @@ class LoanType extends AbstractType
     {
         $builder
 
-            ->add('user', EntityType::class, [
+            /*->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function ($user) {
                     return $user->getFirstName();
                 }
-            ]) 
+            ]) */
 
             ->add('livres', EntityType::class, [
                 'class' => Livre::class,

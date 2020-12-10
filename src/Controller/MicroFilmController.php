@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\MicroFilm;
-use App\Form\MicroFilmType;
-use App\Entity\Rechercher;
 use App\Form\SearchType;
+use App\Entity\MicroFilm;
+use App\Entity\Rechercher;
+use App\Form\MicroFilmType;
 use App\Repository\MicroFilmRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/micro/film")
@@ -21,8 +22,15 @@ class MicroFilmController extends AbstractController
     /**
      * @Route("/", name="micro_film_index", methods={"GET"})
      */
-    public function index(MicroFilmRepository $microFilmRepository, Request $request): Response
+    public function index(MicroFilmRepository $microFilmRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
+        $donnees = $microFilmRepository->findAll();
+        $micro_films = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            6
+        );
 
         $search = new Rechercher();
         $form = $this->createForm(SearchType::class, $search);
@@ -48,7 +56,7 @@ class MicroFilmController extends AbstractController
 
 
         return $this->render('micro_film/index.html.twig', [
-            'micro_films' => $microFilmRepository->findAll(),
+            'micro_films' => $micro_films,
             'form' => $form->createView()
 
         ]);

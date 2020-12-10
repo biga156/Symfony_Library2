@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\CDRom;
 use App\Form\CDRomType;
-use App\Entity\Rechercher;
 use App\Form\SearchType;
+use App\Entity\Rechercher;
 use App\Repository\CDRomRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/c/d/rom")
@@ -20,8 +21,15 @@ class CDRomController extends AbstractController
     /**
      * @Route("/", name="CD_index", methods={"GET"})
      */
-    public function index(CDRomRepository $cDRomRepository, Request $request): Response
+    public function index(CDRomRepository $DRomRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
+        $donnees = $DRomRepository->findAll();
+        $c_d_roms = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            6
+        );
 
         $search = new Rechercher();
         $form = $this->createForm(SearchType::class, $search);
@@ -32,6 +40,8 @@ class CDRomController extends AbstractController
 
             $title = $form->getData()->getTitre();
             $author = $form->getData()->getAuthor();
+            $cote = $form->getData()->getCote();
+
 
 
 
@@ -40,13 +50,13 @@ class CDRomController extends AbstractController
             }
 
             return $this->render('cd_rom/index.html.twig', [
-                'c_d_roms' => $cDRomRepository->findCdrom($title, $author),
+                'c_d_roms' => $DRomRepository->findCdrom($title, $author,$cote),
                 'form' => $form->createView()
             ]);
         }
 
         return $this->render('cd_rom/index.html.twig', [
-            'c_d_roms' => $cDRomRepository->findAll(),
+            'c_d_roms' => $c_d_roms,
             'form' => $form->createView()
 
         ]);

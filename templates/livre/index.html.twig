@@ -59,7 +59,9 @@
         </tbody>
     </table>
 
+    
     <a href="{{ path('livre_new') }}">Create new</a>
+       {{ knp_pagination_render(livres) }}
         
 {% endblock %}
 
@@ -67,4 +69,4 @@
     <script>
         {% include "filter/_filters.js" %}
     </script>
-${% endblock %}
+{% endblock %}

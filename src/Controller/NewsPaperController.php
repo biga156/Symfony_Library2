@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\NewsPaper;
-use App\Form\NewsPaperType;
 use App\Form\SearchType;
+use App\Entity\NewsPaper;
 use App\Entity\Rechercher;
+use App\Form\NewsPaperType;
 use App\Repository\NewsPaperRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/news/paper")
@@ -20,8 +21,15 @@ class NewsPaperController extends AbstractController
     /**
      * @Route("/", name="news_paper_index", methods={"GET"})
      */
-    public function index(NewsPaperRepository $newsPaperRepository, Request $request): Response
+    public function index(NewsPaperRepository $newsPaperRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
+        $donnees = $newsPaperRepository->findAll();
+        $news_papers = $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page', 1),
+            6
+        );
 
         $search = new Rechercher();
         $form = $this->createForm(SearchType::class, $search);
@@ -46,7 +54,7 @@ class NewsPaperController extends AbstractController
 
             }
         return $this->render('news_paper/index.html.twig', [
-            'news_papers' => $newsPaperRepository->findAll(),
+            'news_papers' => $news_papers,
             'form' => $form->createView()
 
         ]);
