@@ -62,7 +62,6 @@
 <tbody>
 	<div class="card">
 		{% for loan in user.loans %}
-			{% for livres in loan.livres %}
 				<tr>
 					{% for livre in loan.livres %}
 						{% if livre.title %}
@@ -83,13 +82,10 @@
 							</td>
 						{% endif %}
 					</tr>
-				{% endfor %}
-
 			{% endfor %}
 		{% endfor %}
 		****************************
 		{% for loan in user.loans %}
-			{% for cdroms in loan.cdrom %}
 				<tr>
 					{% for cdrom in loan.cdrom %}
 						{% if cdrom.title %}
@@ -110,24 +106,26 @@
 							</td>
 						{% endif %}
 					</tr>
-				{% endfor %}
-
 			{% endfor %}
 		{% endfor %}
 	</tbody>
 </tbody>
 </table>
-	{% if is_granted('ROLE_USER') %}
+<br>
+	{% if user.roles==['ROLE_USER'] %}
 		{% if (app.user.id == user.id) %}
 			<a href="{{ path('account_edit', {'id': user.id}) }}">edit</a>
 		{% else  %}
-			<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+			<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a> 
+			
 		{% endif %}
 	{% elseif is_granted('ROLE_VOLONTEER') %}
-			<a class="btn btn-info" href=" {{ path('user_index') }} ">Back to list users</a>
-	{% elseif is_granted('ROLE_ADMIN') %}
-		<a class="btn btn-info" href=" {{ path('user_index') }} ">Back to list users</a>
-		{{ include('user/_delete_form.html.twig') }}
+		<p><a class="btn btn-primary" href=" {{ path('user_index') }} ">Back to list users</a> - 
+		<a class="btn btn-secondary" href="{{ path('user_edit', {'id': user.id}) }}">edit</a> - 
+		<a class="btn btn-light" href=" {{ path('loan_new') }} ">Create new loan</a> </p>
+		{% if is_granted('ROLE_ADMIN') %}
+			{{ include('user/_delete_form.html.twig') }}
+		{% endif %}
 	{% endif %}
 {% endblock %}
 

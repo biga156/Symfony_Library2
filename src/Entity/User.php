@@ -275,4 +275,12 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * Permet de retourner le nombre d'emprunt en cours 
+     */
+    public function numberLoan() : int 
+    {
+        return count($this->loans); 
+    }
 }

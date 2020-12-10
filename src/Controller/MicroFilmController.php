@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\MicroFilm;
 use App\Form\MicroFilmType;
 use App\Entity\Rechercher;
+use App\Form\SearchType;
 use App\Repository\MicroFilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,7 +54,7 @@ class MicroFilmController extends AbstractController
         ]);
     }
  /**
-     * @Route("/new", name="c_d_rom_new", methods={"GET","POST"})
+     * @Route("/new", name="micro_film_new", methods={"GET","POST"})
      */
 
     public function new(Request $request): Response

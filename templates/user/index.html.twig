@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Email</th>
+                <th>User (email)</th>
                 <th>Roles</th>
                 <th>Password</th>
                 <th>FirstName</th>
@@ -26,9 +26,24 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                <td>
+                <a href="{{path('user_show',{id: user.id})}}">{{ user.email }}
+                </td>
+                 <td>                        
+                        {% for role in user.roles %}
+                            {% if role == "ROLE_USER" %}
+                                Utilisateur
+                            {% elseif role == "ROLE_VOLONTEER" %}
+                                Benevol
+                             {% elseif role == "ROLE_GEST" %}
+                                Gestionnaire
+                            {% elseif role == "ROLE_ADMIN" %}
+                                Administrateur
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                {#<td>{{ user.roles ? user.roles|json_encode : '' }}</td>#}
+                <td>********</td>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.address }}</td>
