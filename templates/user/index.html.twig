@@ -10,17 +10,17 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>User (email)</th>
+				<th>Utilisateur (email)</th>
 				<th>Roles</th>
-				<th>Password</th>
-				<th>FirstName</th>
-				<th>LastName</th>
-				<th>Address</th>
-				<th>PostalCode</th>
-				<th>City</th>
-				<th>CreatedAt</th>
-				<th>Fees</th>
-				<th>actions</th>
+				
+				<th>Nom</th>
+				<th>Prénom</th>
+				<th>Addresse</th>
+				<th>Code postale</th>
+				<th>Ville</th>
+				<th>Date de création</th>
+				<th>Cotisation</th>
+				<th>action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,7 +44,7 @@
 						{% endfor %}
 					</td>
 					{#<td>{{ user.roles ? user.roles|json_encode : '' }}</td>#}
-					<td>********</td>
+					
 					<td>{{ user.firstName }}</td>
 					<td>{{ user.lastName }}</td>
 					<td>{{ user.address }}</td>

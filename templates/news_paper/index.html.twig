@@ -30,26 +30,26 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Title</th>
+				
+				<th>Titre</th>
 				<th>Cote</th>
-				<th>Availability</th>
-				<th>Picture</th>
-				<th>CreatedAt</th>
-				<th>actions</th>
+				<th>Disponibilité</th>
+				<th>Image</th>
+				<th>Date de creation</th>
+				<th>action</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for news_paper in news_papers %}
 				<tr>
-					<td>{{ news_paper.id }}</td>
-					<td>{{ news_paper.title }}</td>
+					
+					<td><a href="{{ path('news_paper_show', {'id': news_paper.id}) }}">{{ news_paper.title }}</a></td>
 					<td>{{ news_paper.cote }}</td>
 					<td>{{ news_paper.availability ? 'Yes' : 'No' }}</td>
 					<td>{{ news_paper.picture }}</td>
 					<td>{{ news_paper.createdAt ? news_paper.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
-						<a href="{{ path('news_paper_show', {'id': news_paper.id}) }}">show</a>
+						
 						<a href="{{ path('news_paper_edit', {'id': news_paper.id}) }}">edit</a>
 					</td>
 				</tr>
@@ -63,4 +63,10 @@
 
 	<a href="{{ path('news_paper_new') }}">Create new</a>
 	       {{ knp_pagination_render(news_papers) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        {% include "filter/_filters.js" %}
+    </script>
 {% endblock %}

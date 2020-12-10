@@ -4,17 +4,18 @@
 {% endblock %}
 
 {% block body %}
+
 	<div class="jumbotron">
 		<div class="container">
 			{{ form_start(form) }}
-
-			<div class="col">
-				<div class="form-group">
-					<button class="btn btn-primary">Rechercher</button>
-				</div>
-			</div>
 		</div>
-		{{ form_end(form) }}
+		<div class="col">
+			<div class="form-group">
+				<button class="btn btn-primary">Rechercher</button>
+				{{ form_end(form) }}
+			</div>
+
+		</div>
 	</div>
 </div>
 
@@ -24,26 +25,25 @@
 <table class="table" id="lstindex">
 	<thead>
 		<tr>
-			<th>Id</th>
-			<th>Title</th>
+			
+			<th>Titre</th>
 			<th>Cote</th>
-			<th>Availability</th>
-			<th>Picture</th>
-			<th>CreatedAt</th>
-			<th>actions</th>
+			<th>Disponibilité</th>
+			<th>Image</th>
+			<th>Date de creation</th>
+			<th>action</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for micro_film in micro_films %}
 			<tr>
-				<td>{{ micro_film.id }}</td>
-				<td>{{ micro_film.title }}</td>
+				
+				<td><a href="{{ path('micro_film_show', {'id': micro_film.id}) }}">{{ micro_film.title }}</a></td>
 				<td>{{ micro_film.cote }}</td>
 				<td>{{ micro_film.availability ? 'Yes' : 'No' }}</td>
 				<td>{{ micro_film.picture }}</td>
 				<td>{{ micro_film.createdAt ? micro_film.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 				<td>
-					<a href="{{ path('micro_film_show', {'id': micro_film.id}) }}">show</a>
 					<a href="{{ path('micro_film_edit', {'id': micro_film.id}) }}">edit</a>
 				</td>
 			</tr>

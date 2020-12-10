@@ -24,21 +24,21 @@
     <table class="table" id="lstindex">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
+                
+                <th>Titre</th>
                 <th>Cote</th>
-                <th>Availability</th>
-                <th>Picture</th>
-                <th>Authtor</th>
+                <th>Disponibilité</th>
+                <th>Image</th>
+                <th>Auteur</th>
                 <th>Special</th>
-                <th>actions</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
         {% for livre in livres %}
             <tr>
-                <td>{{ livre.id }}</td>
-                <td>{{ livre.title }}</td>
+              
+                <td> <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.title }}</a></td>
                 <td>{{ livre.cote }}</td>
                 <td>{{ livre.availability ? 'Yes' : 'No' }}</td>
                 <td>{{ livre.picture }}</td>
@@ -46,8 +46,7 @@
                 <td>{{ livre.special ? 'Yes' : 'No' }}</td>
                 <td>{{ livre.searchable }}</td>
                 <td>
-                    <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
-                    <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
+                   <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

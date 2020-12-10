@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Hello HomeController!
+  Guinot Bibliothèque - accueil
 {% endblock %}
 
 {% block body %}
@@ -14,10 +14,10 @@
   <div class="example-wrapper">
     {% if app.user %}
       <h1>
-        Hello {{ app.user.firstname }}! ✅
+        Bonjour {{ app.user.firstname }}! ✅
       </h1>
       <p>
-        you are logged in as 
+        Vous êtes authentifé en tant que  
          {# loop the roles #}
              {% for role in app. user.roles %}
                   {% if role == "ROLE_USER" %}
@@ -29,10 +29,10 @@
       </p>
     {% else %}
      <h1>
-        Hello visitor! ✅
+        Bonjour  visiteur! ✅
       </h1>
       <p>
-        you must log in
+        Vous devriez vous authentifier pour consulter vos informations et vos emprunts en cours
       </p>
     {% endif %}
   </div>

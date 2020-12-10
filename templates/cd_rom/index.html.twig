@@ -25,28 +25,28 @@
 <table class="table" id="lstindex">
 	<thead>
 		<tr>
-			<th>Id</th>
-			<th>Title</th>
+			
+			<th>Titre</th>
 			<th>Cote</th>
-			<th>Availability</th>
-			<th>Picture</th>
-			<th>Authtor</th>
-			<th>Bail</th>
-			<th>actions</th>
+			<th>Disponibilité</th>
+			<th>Image</th>
+			<th>Auteur</th>
+			<th>Caution</th>
+			<th>action</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for c_d_rom in c_d_roms %}
 			<tr>
-				<td>{{ c_d_rom.id }}</td>
-				<td>{{ c_d_rom.title }}</td>
+				
+				<td><a href="{{ path('c_d_rom_show', {'id': c_d_rom.id}) }}">{{ c_d_rom.title }}</a></td>
 				<td>{{ c_d_rom.cote }}</td>
 				<td>{{ c_d_rom.availability ? 'Yes' : 'No' }}</td>
 				<td>{{ c_d_rom.picture }}</td>
 				<td>{{ c_d_rom.authtor }}</td>
 				<td>{{ c_d_rom.bail }}</td>
 				<td>
-					<a href="{{ path('c_d_rom_show', {'id': c_d_rom.id}) }}">show</a>
+					
 					<a href="{{ path('c_d_rom_edit', {'id': c_d_rom.id}) }}">edit</a>
 				</td>
 			</tr>
